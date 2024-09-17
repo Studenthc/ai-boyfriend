@@ -8,7 +8,7 @@ export const metadata = {
   title: "Assistants API Quickstart",
   description: "A quickstart template using the Assistants API with OpenAI",
   icons: {
-    icon: "/icon.svg",
+    icon: "/icon.png",
   },
 };
 

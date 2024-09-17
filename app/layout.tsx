@@ -3,6 +3,7 @@ import "./globals.css";
 import Warnings from "./components/warnings";
 import { assistantId } from "./assistant-config";
 import { Metadata } from 'next';
+import GoogleAnalytics from './GoogleAnalytics';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         {assistantId ? children : <Warnings />}
+        <GoogleAnalytics GA_MEASUREMENT_ID="G-QGRYFWK2JN" />
       </body>
     </html>
   );

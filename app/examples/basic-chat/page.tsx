@@ -5,8 +5,9 @@ import styles from "./page.module.css";
 import Chat from "../../components/chat";
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
+import { Suspense } from 'react';
 
-const Home = () => {
+const ChatContent = () => {
   const searchParams = useSearchParams();
   const avatarUrl = searchParams.get('avatar');
   const name = searchParams.get('name') || 'AI Assistant';
@@ -28,6 +29,14 @@ const Home = () => {
         <Chat avatarUrl={avatarUrl || undefined} characterPrompt={prompt} />
       </div>
     </main>
+  );
+};
+
+const Home = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ChatContent />
+    </Suspense>
   );
 };
 

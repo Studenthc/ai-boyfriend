@@ -21,6 +21,7 @@ const ChatContent = () => {
             alt={name} 
             layout="fill" 
             objectFit="contain"
+            sizes="(max-width: 768px) 100vw, 30vw"
           />
         )}
       </div>

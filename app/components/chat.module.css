@@ -1,0 +1,126 @@
+.chatWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+}
+
+.inputForm {
+  display: flex;
+  padding: 15px;
+  background-color: #f8f8f8;
+  border-top: 1px solid #e0e0e0;
+}
+
+.input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #a0d0a0; /* 稍微深一点的绿色边框 */
+  border-radius: 20px;
+  margin-right: 10px;
+  font-size: 14px;
+  background-color: #ffffff;
+  outline: none; /* 移除默认的焦点轮廓 */
+  transition: border-color 0.3s ease; /* 添加平滑过渡效果 */
+}
+
+.input:focus {
+  border-color: #4CAF50; /* 聚焦时变为深绿色边框 */
+  box-shadow: 0 0 0 1px #4CAF50; /* 添加微妙的阴影效果 */
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.button:hover {
+  background-color: #45a049; /* 稍深的绿色用于悬停效果 */
+}
+
+.button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.assistantMessageContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.assistantMessage, .userMessage, .codeMessage {
+  max-width: 70%;
+  padding: 12px 16px;
+  border-radius: 18px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* .assistantMessage {
+  background-color: #ffffff;
+  align-self: flex-start;
+} */
+
+.assistantMessage {
+  background-color: #FFFFFF; /* 保持白色背景 */
+  color: #333333; /* 深灰色文字 */
+  border: 1px solid #C8E6C9; /* 与用户消息相同的边框颜色 */
+  padding: 12px 16px;
+  border-radius: 18px;
+  margin-bottom: 8px;
+  align-self: flex-start;
+  max-width: 70%;
+}
+
+.userMessage {
+  background-color: white; /* 将用户消息背景改为白色 */
+  color: var(--dark-green);
+  padding: 12px 16px;
+  border-radius: 18px;
+  margin-bottom: 8px;
+  align-self: flex-end;
+  max-width: 70%;
+  text-align: right;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* 添加轻微阴影以增加深度 */
+  border: 1px solid #C8E6C9; /* 添加一个稍深的边框 */
+}
+
+.codeMessage {
+  background-color: #2d2d2d;
+  color: #f8f8f2;
+  font-family: 'Courier New', Courier, monospace;
+  white-space: pre-wrap;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .assistantMessage, .userMessage, .codeMessage {
+    max-width: 85%;
+  }
+}

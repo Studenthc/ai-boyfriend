@@ -1,0 +1,125 @@
+:root {
+  --primary-color: #4CAF50;
+  --secondary-color: #45a049;
+  --background-color: #f8f9fa;
+  --text-color: #2c3e50;
+  --accent-color: #81c784;
+  --hover-color: #388e3c;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  height: 100%;
+  overflow: hidden;
+}
+
+#__next {
+  height: 100%;
+}
+
+body {
+  color: var(--text-color);
+  background: var(--background-color); /* 使用新定义的白色背景 */
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 如果之前有深色模式的设置，可以保留或调整 */
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: light; /* 改为 light 以保持白色背景 */
+  }
+  body {
+    color: var(--text-color);
+    background: var(--background-color);
+  }
+}
+
+/* 添加一些通用的类，可以在整个应用中使用 */
+.btn {
+  background-color: var(--primary-green);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--dark-green);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.warnings {
+  position: absolute;
+  top: 21%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 300px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  margin: 16px;
+  top: 0;
+  right: 0;
+}
+
+@media (max-width: 1100px) {
+  .logo {
+    display: none;
+  }
+}
+
+ul,
+ol {
+  padding-left: 20px;
+}
+
+a {
+  color: blue;
+}
+
+pre {
+  margin: -4px -16px;
+  padding: 20px;
+  white-space: pre-wrap;
+  background-color: #e4e4e4;
+  color: black;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

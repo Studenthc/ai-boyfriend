@@ -20,7 +20,7 @@ const ChatContent = () => {
             src={avatarUrl} 
             alt={name} 
             layout="fill" 
-            objectFit="cover"
+            objectFit="contain"
           />
         )}
       </div>

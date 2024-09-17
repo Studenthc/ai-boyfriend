@@ -3,16 +3,17 @@ import styles from './Sidebar.module.css';
 import { List, ListItem, Typography, Button } from '@mui/material';
 import { MdDashboard, MdShoppingCart, MdPeople, MdBarChart, MdLayers, MdHelp, MdSettings, MdExitToApp } from 'react-icons/md';
 import { Badge } from "@/components/ui/badge"
+import { useRouter } from 'next/navigation';
 
 const menuItems = [
-  { text: 'Overview', icon: <MdDashboard /> },
-  { text: 'Orders', icon: <MdShoppingCart /> },
-  { text: 'Customers', icon: <MdPeople /> },
-  { text: 'Reports', icon: <MdBarChart /> },
-  { text: 'Integrations', icon: <MdLayers /> },
-  { text: 'Help Center', icon: <MdHelp /> },
-  { text: 'Settings', icon: <MdSettings /> },
-  { text: 'Logout', icon: <MdExitToApp /> },
+  { text: 'Overview', icon: <MdDashboard />, path: '/' },
+  { text: 'Orders', icon: <MdShoppingCart />, path: '/orders' },
+  { text: 'Customers', icon: <MdPeople />, path: '/customers' },
+  { text: 'Reports', icon: <MdBarChart />, path: '/reports' },
+  { text: 'Integrations', icon: <MdLayers />, path: '/integrations' },
+  { text: 'Help Center', icon: <MdHelp />, path: '/help' },
+  { text: 'Settings', icon: <MdSettings />, path: '/settings' },
+  { text: 'Logout', icon: <MdExitToApp />, path: '/logout' },
 ];
 
 interface SidebarProps {
@@ -21,6 +22,12 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ className }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
+  const handleNavigation = (path: string) => {
+    setIsOpen(false);
+    router.push(path);
+  };
 
   return (
     <>
@@ -40,7 +47,14 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         <List className={styles.menuList}>
           {menuItems.map((item) => (
             <ListItem key={item.text} className={styles.navItem}>
-              <a href="#" className={styles.navLink} onClick={() => setIsOpen(false)}>
+              <a 
+                href="#" 
+                className={styles.navLink} 
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavigation(item.path);
+                }}
+              >
                 <span className={styles.icon}>{item.icon}</span>
                 {item.text}
               </a>

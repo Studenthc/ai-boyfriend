@@ -1,0 +1,52 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--background-color); /* 使用与侧边栏相同的背景色 */
+}
+
+.title {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: black; /* 保持标题文字为黑色 */
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  max-width: 1200px;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+}
+
+.category {
+  color: black; /* 保持类别文字为黑色 */
+  display: flex;
+  font-size: 1em;
+  border-radius: 32px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: white; /* 将类别背景改为白色，以提供对比 */
+  cursor: pointer;
+  max-width: 600px;
+  width: 120px;
+  height: 120px;
+  padding: 20px;
+  transition: background-color 0.3s ease;
+  font-weight: 500;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.category:hover {
+  background-color: var(--primary-color); /* 悬停时变为中等绿色 */
+  color: white;
+}

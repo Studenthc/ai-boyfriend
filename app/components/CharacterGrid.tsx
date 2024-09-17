@@ -269,7 +269,7 @@ const CharacterGrid: React.FC<CharacterGridProps> = ({ className }) => {
               <div style={{ position: 'relative', paddingTop: '133.33%', overflow: 'hidden' }}>
                 <img
                   src={character.image}
-                  alt={character.name}
+                  alt={`${character.name}, ${character.age} years old - ${character.tagline}`}
                   style={{
                     position: 'absolute',
                     top: 0,

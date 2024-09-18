@@ -7,12 +7,13 @@ import { useRouter } from 'next/navigation';
 
 const menuItems = [
   { text: 'Overview', icon: <MdDashboard />, path: '/' },
-  { text: 'Orders', icon: <MdShoppingCart />, path: '/orders' },
-  { text: 'Customers', icon: <MdPeople />, path: '/customers' },
-  { text: 'Reports', icon: <MdBarChart />, path: '/reports' },
-  { text: 'Help Center', icon: <MdHelp />, path: '/help' },
-  { text: 'Settings', icon: <MdSettings />, path: '/settings' },
-  { text: 'Logout', icon: <MdExitToApp />, path: '/logout' },
+  // { text: 'Chat', icon: <MdPeople />, path: '/examples/basic-chat/' },
+  // { text: 'Orders', icon: <MdShoppingCart />, path: '/orders' },
+  // { text: 'Customers', icon: <MdPeople />, path: '/customers' },
+  // { text: 'Reports', icon: <MdBarChart />, path: '/reports' },
+  // { text: 'Help Center', icon: <MdHelp />, path: '/help' },
+  // { text: 'Settings', icon: <MdSettings />, path: '/settings' },
+  // { text: 'Logout', icon: <MdExitToApp />, path: '/logout' },
 ];
 
 interface SidebarProps {
@@ -63,8 +64,11 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
             </ListItem>
           ))}
         </List>
-        <Button className={styles.upgradeButton} variant="contained">
+        {/* <Button className={styles.upgradeButton} variant="contained">
           UPGRADE TO PRO
+        </Button> */}
+        <Button className={styles.upgradeButton} variant="contained">
+          MORE FEATURE UPCOMING!
         </Button>
       </div>
       {isOpen && (

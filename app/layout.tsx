@@ -1,11 +1,8 @@
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Warnings from "./components/warnings";
 import { assistantId } from "./assistant-config";
 import { Metadata } from 'next';
 import GoogleAnalytics from './GoogleAnalytics';
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "BestAIBoy.com | Your Perfect AI Boyfriend Experience",
@@ -13,7 +10,6 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icon.png",
   },
-  // 添加 canonical URL
   alternates: {
     canonical: 'https://www.bestaiboy.com',
   },
@@ -22,7 +18,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <head>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+      </head>
+      <body>
         {assistantId ? children : <Warnings />}
         <GoogleAnalytics GA_MEASUREMENT_ID="G-45DCLSPB1L" />
       </body>

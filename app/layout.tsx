@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         {assistantId ? children : <Warnings />}
-        <GoogleAnalytics GA_MEASUREMENT_ID="G-QGRYFWK2JN" />
+        <GoogleAnalytics GA_MEASUREMENT_ID="G-45DCLSPB1L" />
       </body>
     </html>
   );

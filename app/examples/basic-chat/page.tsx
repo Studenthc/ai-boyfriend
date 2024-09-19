@@ -1,5 +1,5 @@
-import { Metadata } from 'next';
-import ChatContent from './ChatContent';
+import { Metadata } from 'next'
+import ChatContent from './ChatContent'
 
 export const metadata: Metadata = {
   title: 'Chat with AI Boyfriend | BestAIBoy.com',
@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.bestaiboy.com/examples/basic-chat',
   },
-};
+}
 
 export default function BasicChatPage() {
-  return <ChatContent />;
+  return <ChatContent />
 }

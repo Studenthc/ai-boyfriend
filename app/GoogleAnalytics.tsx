@@ -1,28 +1,8 @@
 'use client';
 
 import Script from 'next/script'
-import { usePathname, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
-
-// 添加 gtag 函数的类型定义
-declare global {
-  interface Window {
-    gtag: (command: string, id: string, config: object) => void;
-  }
-}
 
 export default function GoogleAnalytics({GA_MEASUREMENT_ID} : {GA_MEASUREMENT_ID : string}){
-    const pathname = usePathname()
-    const searchParams = useSearchParams()
-
-    useEffect(() => {
-        const url = pathname + searchParams.toString()
-        // 使用可选链操作符确保 window.gtag 存在
-        window.gtag?.('config', GA_MEASUREMENT_ID, {
-            page_path: url,
-        })
-    }, [pathname, searchParams, GA_MEASUREMENT_ID])
-
     return (
         <>
             <Script strategy="afterInteractive" 
@@ -38,8 +18,8 @@ export default function GoogleAnalytics({GA_MEASUREMENT_ID} : {GA_MEASUREMENT_ID
                 `,
                 }}
             />
-
-            
         </>
     )
 }
+
+

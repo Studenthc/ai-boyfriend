@@ -3,6 +3,8 @@ import Warnings from "./components/warnings";
 import { assistantId } from "./assistant-config";
 import { Metadata } from 'next';
 import GoogleAnalytics from './GoogleAnalytics';
+import { Suspense } from 'react';
+import PageViewTracker from './components/PageViewTracker';
 
 export const metadata: Metadata = {
   title: "BestAIBoy.com | Your Perfect AI Boyfriend Experience",
@@ -24,6 +26,11 @@ export default function RootLayout({ children }) {
       <body>
         {assistantId ? children : <Warnings />}
         <GoogleAnalytics GA_MEASUREMENT_ID="G-45DCLSPB1L" />
+        {assistantId && (
+          <Suspense fallback={null}>
+            <PageViewTracker GA_MEASUREMENT_ID="G-45DCLSPB1L" />
+          </Suspense>
+        )}
       </body>
     </html>
   );

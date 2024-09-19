@@ -46,12 +46,10 @@ const ChatContentInner = () => {
   );
 };
 
-const ChatContent = () => {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ChatContentInner />
-    </Suspense>
-  );
-};
+const ChatContent = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <ChatContentInner />
+  </Suspense>
+);
 
 export default ChatContent;

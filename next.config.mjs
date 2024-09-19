@@ -5,6 +5,9 @@ const nextConfig = {
     images: {
         domains: ['example.com'], // Add any domains you're loading images from
     },
+    experimental: {
+        appDir: true,
+    },
 };
 
 export default nextConfig;

@@ -3,8 +3,8 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://www.bestaiboy.com
+Host: https://bestaiboy.com
 
 # Sitemaps
-Sitemap: https://www.bestaiboy.com/sitemap.xml
-Sitemap: https://www.bestaiboy.com/server-sitemap.xml
+Sitemap: https://bestaiboy.com/sitemap.xml
+Sitemap: https://bestaiboy.com/server-sitemap.xml

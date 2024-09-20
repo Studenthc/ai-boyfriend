@@ -14,7 +14,7 @@ const ChatContentInner = () => {
   const prompt = searchParams.get('prompt') || '';
 
   // 构建基本的 canonical URL
-  const baseCanonicalUrl = 'https://www.bestaiboy.com/examples/basic-chat';
+  const baseCanonicalUrl = 'https://bestaiboy.com/examples/basic-chat';
   
   // 如果有 name 参数，将其添加到 canonical URL
   const canonicalUrl = name !== 'AI Assistant' 

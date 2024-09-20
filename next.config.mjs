@@ -8,6 +8,15 @@ const nextConfig = {
     experimental: {
         appDir: true,
     },
+    async redirects() {
+        return [
+            {
+                source: 'https://www.bestaiboy.com/:path*',
+                destination: 'https://bestaiboy.com/:path*',
+                permanent: true,
+            },
+        ];
+    },
 };
 
 export default nextConfig;

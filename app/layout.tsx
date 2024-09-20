@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     icon: "/icon.png",
   },
   alternates: {
-    canonical: 'https://www.bestaiboy.com',
+    canonical: 'https://bestaiboy.com',
   },
 };
 

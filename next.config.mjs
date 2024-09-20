@@ -5,13 +5,16 @@ const nextConfig = {
     images: {
         domains: ['example.com'], // Add any domains you're loading images from
     },
-    experimental: {
-        appDir: true,
-    },
     async redirects() {
         return [
             {
-                source: 'https://www.bestaiboy.com/:path*',
+                source: '/:path*',
+                has: [
+                    {
+                        type: 'host',
+                        value: 'www.bestaiboy.com',
+                    },
+                ],
                 destination: 'https://bestaiboy.com/:path*',
                 permanent: true,
             },

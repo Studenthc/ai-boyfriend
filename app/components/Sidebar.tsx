@@ -46,7 +46,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
         className={`${styles.sidebar} ${className} ${isOpen ? styles.open : ''} md:translate-x-0 transition-transform duration-300 ease-in-out fixed md:relative z-20`}
       >
         <div className="flex items-center space-x-2 mb-6">
-          <h1 className="text-xl font-bold text-[#4CAF50]">bestaiboy</h1>
+          <h2 className="text-xl font-bold text-[#4CAF50]">bestaiboy</h2>
           <Badge variant="secondary" className="bg-[#e8f5e9] text-[#4CAF50]">
             .com
           </Badge>

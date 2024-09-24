@@ -3,6 +3,7 @@
 import React from 'react';
 import Sidebar from './components/Sidebar';
 import CharacterGrid from './components/CharacterGrid';
+import FAQ from './components/FAQ';
 import styles from './page.module.css'
 
 const Home = () => {
@@ -23,6 +24,9 @@ const Home = () => {
           <section>
             <h2 className="text-2xl font-semibold mb-4">Choose Your AI Boyfriend</h2>
             <CharacterGrid className="h-full" />
+          </section>
+          <section>
+            <FAQ />
           </section>
         </div>
       </main>

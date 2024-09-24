@@ -50,3 +50,27 @@
   background-color: var(--primary-color); /* 悬停时变为中等绿色 */
   color: white;
 }
+
+.faq-section {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.faq-section h2 {
+  margin-bottom: 20px;
+}
+
+.faq-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.faq-section li {
+  margin-bottom: 20px;
+}
+
+.faq-section h3 {
+  margin-bottom: 10px;
+}

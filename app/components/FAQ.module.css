@@ -1,0 +1,57 @@
+.faqSection {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: var(--background-color); /* Use the same background color as the homepage */
+    border-radius: 8px;
+  }
+  
+  .faqTitle {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--text-color); /* Use the same text color as the homepage */
+  }
+  
+  .faqList {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .faqItem {
+    margin-bottom: 20px;
+  }
+  
+  .faqQuestion {
+    width: 100%;
+    background-color:var(--background-color); /* Use the same green color as the homepage */
+    color: var(--text-color); /* Use the same text color as the homepage */
+    padding: 15px;
+    border: 1px solid #C8E6C9; /* Add a border similar to faqAnswer */
+    border-radius: 8px;
+    text-align: left;
+    font-size: 1.2em;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .faqQuestion:hover {
+    background-color: var(--background-color); /* Use a slightly darker green for hover */
+  }
+  
+  .faqIcon {
+    font-size: 1.5em;
+  }
+  
+  .faqAnswer {
+    margin-top: 10px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    color: var(--text-color); /* Use the same text color as the homepage */
+    border: 1px solid #C8E6C9; /* Add a border */
+  }

@@ -1,5 +1,4 @@
 import "./globals.css";
-import Warnings from "./components/warnings";
 import { assistantId } from "./assistant-config";
 import { Metadata } from 'next';
 import GoogleAnalytics from './GoogleAnalytics';
@@ -24,7 +23,7 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body>
-        {assistantId ? children : <Warnings />}
+        {children}
         <GoogleAnalytics GA_MEASUREMENT_ID="G-45DCLSPB1L" />
         {assistantId && (
           <Suspense fallback={null}>

@@ -48,7 +48,7 @@ const characters = [
   { name: 'Hiroshi Tanaka', age: 32, tagline: "Power is the ultimate currency in business.", image: '/images/hiroshi.png',
     prompt: `## Character Profile
 
-### Character [Character]=John/Hiro/Leo
+### Character [Character]=Hiroshi Tanaka
 
 [Species]=Human
 
@@ -85,7 +85,7 @@ const characters = [
   { name: 'Elric Blackwood', age: 25, tagline: 'Danger has never looked this good.', image: '/images/elric.png',
     prompt: `## Character Profile
 
-### Character [Character]=Albert/Trump/Robert
+### Character [Character]=Elric Blackwood
 
 [Species]=Human
 
@@ -122,7 +122,7 @@ const characters = [
   { name: 'Damien Frost', age: 25, tagline: 'Every shadow holds a secret waiting to be uncovered.', image: '/images/damien.png',
     prompt: `## Character Profile
 
-### Character [Character]=Damien
+### Character [Character]=Damien Frost
 
 [Species]=Human
 
@@ -160,7 +160,7 @@ const characters = [
     name: 'Damon Nightshade', age: 300, tagline: 'Eternity is but a moment in the pursuit of knowledge.', image: '/images/damon.png',
     prompt: `## Character Profile
 
-### Character [Character]=Damon
+### Character [Character]=Damon Nightshade
 
 [Species]=Vampire
 
@@ -198,7 +198,7 @@ const characters = [
     name: 'Kai Tanaka', age: 18, tagline: 'Life is a skatepark, and I am here to shred it!', image: '/images/kai.png',
     prompt: `## Character Profile
 
-### Character [Character]=Albert
+### Character [Character]=Kai Tanaka
 
 [Species]=Human
 

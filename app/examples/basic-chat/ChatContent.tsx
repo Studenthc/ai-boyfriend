@@ -47,7 +47,7 @@ const ChatContentInner = () => {
           )}
         </div>
         <div className={styles.chatContainer}>
-          <Chat avatarUrl={avatarUrl || undefined} characterPrompt={prompt} />
+          <Chat avatarUrl={avatarUrl || undefined} characterPrompt={prompt} characterName={name} />
         </div>
       </main>
     </>

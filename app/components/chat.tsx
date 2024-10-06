@@ -54,18 +54,40 @@ type ChatProps = {
   functionCallHandler?: (toolCall: any) => Promise<string>;
   avatarUrl?: string;
   characterPrompt?: string;
+  characterName: string; // Add this line
 };
 
 const Chat: React.FC<ChatProps> = ({
   functionCallHandler = () => Promise.resolve(""),
   avatarUrl,
   characterPrompt = "",
+  characterName,
 }) => {
   const [userInput, setUserInput] = useState("");
   const [messages, setMessages] = useState<MessageProps[]>([]);
   const [inputDisabled, setInputDisabled] = useState(false);
   const [threadId, setThreadId] = useState("");
   const [isInitialized, setIsInitialized] = useState(false);
+
+  // Load messages from local storage on component mount
+  useEffect(() => {
+    const storedMessages = localStorage.getItem(`chat_messages_${characterName}`);
+    if (storedMessages) {
+      setMessages(JSON.parse(storedMessages));
+    } else {
+      // Only add the welcome message if there are no stored messages
+      setMessages([{ role: "assistant", text: "Hello! It's really nice to finally meet you!" }]);
+    }
+    setIsInitialized(true);
+  }, [characterName]);
+
+  // Save messages to local storage whenever they change
+  useEffect(() => {
+    if (messages.length > 0) {
+      const messagesToStore = messages.slice(-100); // Store only the last 100 messages
+      localStorage.setItem(`chat_messages_${characterName}`, JSON.stringify(messagesToStore));
+    }
+  }, [messages, characterName]);
 
   // automatically scroll to bottom of chat
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -79,23 +101,16 @@ const Chat: React.FC<ChatProps> = ({
   // create a new threadID when chat component created
   useEffect(() => {
     const createThread = async () => {
-      if (isInitialized) return; // Prevent multiple initializations
+      if (!isInitialized) return; // Wait for initialization
       
       const res = await fetch(`/api/assistants/threads`, {
         method: "POST",
       });
       const data = await res.json();
       setThreadId(data.threadId);
-      
-      // Add initial system message only if messages array is empty
-      if (messages.length === 0) {
-        appendMessage("assistant", "Hello! It's really nice to finally meet you!");
-      }
-      
-      setIsInitialized(true);
     };
     createThread();
-  }, [isInitialized, messages.length]);
+  }, [isInitialized]);
 
   const sendMessage = async (text: string) => {
     setInputDisabled(true);

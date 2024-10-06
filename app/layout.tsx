@@ -5,17 +5,6 @@ import GoogleAnalytics from './GoogleAnalytics';
 import { Suspense } from 'react';
 import PageViewTracker from './components/PageViewTracker';
 
-// export const metadata: Metadata = {
-//   title: "BestAIBoy.com | Your Perfect AI Boyfriend Experience",
-//   description: "Discover your ideal AI boyfriend at BestAIBoy.com. Engage in meaningful conversations, receive emotional support, and explore a new dimension of companionship with our advanced AI technology.",
-//   icons: {
-//     icon: "/icon.png",
-//   },
-//   alternates: {
-//     canonical: 'https://bestaiboy.com',
-//   },
-// };
-
 export const metadata: Metadata = {
   title: "BestAIBoy.com | Your Perfect AI Boyfriend Experience",
   description: "Discover your ideal AI boyfriend at BestAIBoy.com. Engage in meaningful conversations, receive emotional support, and explore a new dimension of companionship with our advanced AI technology.",

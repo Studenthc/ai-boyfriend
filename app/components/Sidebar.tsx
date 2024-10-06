@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import styles from './Sidebar.module.css';
 import { List, ListItem, Typography, Button } from '@mui/material';
-import { MdDashboard, MdShoppingCart, MdPeople, MdBarChart, MdLayers, MdHelp, MdSettings, MdExitToApp } from 'react-icons/md';
+import { MdDashboard, MdMenu } from 'react-icons/md';
 import { Badge } from "@/components/ui/badge"
 import { useRouter } from 'next/navigation';
 
@@ -18,32 +18,27 @@ const menuItems = [
 
 interface SidebarProps {
   className?: string;
+  isVisible: boolean;
+  onToggle: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ className }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const Sidebar: React.FC<SidebarProps> = ({ className, isVisible, onToggle }) => {
   const router = useRouter();
 
-  const toggleSidebar = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsOpen(prev => !prev);
-  }, []);
-
   const handleNavigation = useCallback((path: string) => {
-    setIsOpen(false);
     router.push(path);
   }, [router]);
 
   return (
     <>
       <button 
-        className="md:hidden fixed top-4 left-4 z-30 p-2 bg-gray-800 text-white rounded"
-        onClick={toggleSidebar}
+        className={`${styles.toggleButton} ${isVisible ? styles.visible : ''}`}
+        onClick={onToggle}
       >
-        ☰
+        <MdMenu />
       </button>
       <div 
-        className={`${styles.sidebar} ${className} ${isOpen ? styles.open : ''} md:translate-x-0 transition-transform duration-300 ease-in-out fixed md:relative z-20`}
+        className={`${styles.sidebar} ${className} ${isVisible ? styles.visible : ''}`}
       >
         <div className="flex items-center space-x-2 mb-6">
           <h2 className="text-xl font-bold text-[#4CAF50]">bestaiboy</h2>
@@ -64,22 +59,12 @@ const Sidebar: React.FC<SidebarProps> = ({ className }) => {
             </ListItem>
           ))}
         </List>
-        {/* <Button className={styles.upgradeButton} variant="contained">
-          UPGRADE TO PRO
-        </Button> */}
         <Button className={styles.upgradeButton} variant="contained">
           MORE FEATURE UPCOMING!
         </Button>
       </div>
-      {isOpen && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
     </>
   );
 };
 
 export default Sidebar;
-

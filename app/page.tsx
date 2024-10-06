@@ -1,15 +1,21 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import CharacterGrid from './components/CharacterGrid';
 import FAQ from './components/FAQ';
 import styles from './page.module.css'
 
 const Home = () => {
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarVisible(!isSidebarVisible);
+  };
+
   return (
     <div className="flex flex-col md:flex-row h-screen w-full overflow-hidden">
-      <Sidebar className="w-full md:w-64 flex-shrink-0" />
+      <Sidebar className="w-full md:w-64 flex-shrink-0" isVisible={isSidebarVisible} onToggle={toggleSidebar} />
       <main className={`${styles.main} flex-grow overflow-y-auto p-4 md:p-8`}>
         <div className="min-h-full">
           <header>

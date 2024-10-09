@@ -136,14 +136,19 @@ const Chat: React.FC<ChatProps> = ({
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
 
-      appendMessage("assistant", "");
+      let accumulatedResponse = "";
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         const chunk = decoder.decode(value);
+        accumulatedResponse += chunk;
         appendToLastMessage(chunk);
       }
+
+      // 在这里调用 handleAIResponse
+      await handleAIResponse(accumulatedResponse);
+
     } catch (error) {
       console.error("Error in sendMessage:", error);
       appendMessage("assistant", "Sorry, an error occurred while processing your message.");
@@ -188,6 +193,47 @@ const Chat: React.FC<ChatProps> = ({
       }
       return [...prevMessages, { role, text }];
     });
+  };
+
+  const handleAIResponse = async (response: string) => {
+    console.log("Handling AI response:", response);
+    // 处理AI的文本响应
+    appendMessage("assistant", response);
+
+    try {
+      // 调用TTS API
+      const ttsResponse = await fetch('/api/tts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'audio/wav',
+        },
+        body: JSON.stringify({ text: response }),
+      });
+
+      if (!ttsResponse.ok) {
+        const errorData = await ttsResponse.json();
+        console.error('TTS API error:', errorData);
+        throw new Error('Failed to generate speech');
+      }
+
+      const audioBlob = await ttsResponse.blob();
+      console.log('Received audio blob, size:', audioBlob.size);
+
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+
+      audio.oncanplaythrough = () => {
+        console.log('Audio ready to play');
+        audio.play().catch(e => console.error('Error playing audio:', e));
+      };
+
+      audio.onerror = (e) => console.error('Audio error:', e);
+
+      // 清理 URL 对象
+      audio.onended = () => URL.revokeObjectURL(audioUrl);
+    } catch (error) {
+      console.error('Error in TTS process:', error);
+    }
   };
 
   return (

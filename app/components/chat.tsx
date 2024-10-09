@@ -128,15 +128,17 @@ const Chat: React.FC<ChatProps> = ({
           }),
         }
       );
-
+  
       if (!response.body) {
         throw new Error("ReadableStream not supported");
       }
-
+  
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
-
+  
       let accumulatedResponse = "";
+  
+      setMessages((prevMessages) => [...prevMessages, { role: "assistant" as const, text: "" }]);
 
       while (true) {
         const { done, value } = await reader.read();
@@ -145,10 +147,10 @@ const Chat: React.FC<ChatProps> = ({
         accumulatedResponse += chunk;
         appendToLastMessage(chunk);
       }
-
+  
       // 在这里调用 handleAIResponse
       await handleAIResponse(accumulatedResponse);
-
+  
     } catch (error) {
       console.error("Error in sendMessage:", error);
       appendMessage("assistant", "Sorry, an error occurred while processing your message.");
@@ -157,17 +159,15 @@ const Chat: React.FC<ChatProps> = ({
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     console.log("handleSubmit");
 
     e.preventDefault();
     if (!userInput.trim()) return;
-  
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { role: "user", text: userInput },
-    ]);
-  
+
+    const userMessage: MessageProps = { role: "user", text: userInput };
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
+
     sendMessage(userInput);
     setUserInput("");
     setInputDisabled(true);
@@ -175,9 +175,12 @@ const Chat: React.FC<ChatProps> = ({
   };
 
   const appendToLastMessage = (text: string) => {
-    setMessages((prevMessages) => {
+    setMessages((prevMessages: MessageProps[]) => {
       const lastMessage = prevMessages[prevMessages.length - 1];
-      const updatedLastMessage = {
+      if (lastMessage.role !== "assistant") {
+        return [...prevMessages, { role: "assistant" as const, text }];
+      }
+      const updatedLastMessage: MessageProps = {
         ...lastMessage,
         text: lastMessage.text + text,
       };

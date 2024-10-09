@@ -16,7 +16,8 @@ export async function POST(request, { params: { threadId } }) {
     const messages = messageStore.getMessages(threadId);
 
     const stream = await openai.chat.completions.create({
-      model: "meta-llama/llama-3.1-8b-instruct:free",
+      // model: "meta-llama/llama-3.1-8b-instruct:free",
+      model: "google/gemini-pro-1.5-exp",
       messages: [
         { role: "system", content: characterPrompt },
         ...messages

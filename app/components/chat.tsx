@@ -13,12 +13,37 @@ const UserMessage = ({ text }: { text: string }) => {
   return <div className={styles.userMessage}>{text}</div>;
 };
 
+// const AssistantMessage: React.FC<{ text: string; avatarUrl?: string }> = ({ text, avatarUrl }) => {
+//   console.log("Rendering assistant message:", text); // 添加这行
+//   return (
+//     <div className={styles.assistantMessageContainer}>
+//       {avatarUrl && <img src={avatarUrl} alt="Assistant" className={styles.avatar} />}
+//       <div className={styles.assistantMessage}>
+//         <Markdown components={{
+//           img: ({node, ...props}) => {
+//             console.log("Rendering image:", props.src); // 添加这行
+//             return <img {...props} style={{maxWidth: '100%', height: 'auto'}} />;
+//           }
+//         }}>
+//           {text}
+//         </Markdown>
+//       </div>
+//     </div>
+//   );
+// };
+
 const AssistantMessage: React.FC<{ text: string; avatarUrl?: string }> = ({ text, avatarUrl }) => {
+  const isImageMessage = text.startsWith('![Generated Image]');
+  
   return (
     <div className={styles.assistantMessageContainer}>
       {avatarUrl && <img src={avatarUrl} alt="Assistant" className={styles.avatar} />}
       <div className={styles.assistantMessage}>
-        <Markdown>{text}</Markdown>
+        {isImageMessage ? (
+          <img src={text.match(/\((.*?)\)/)?.[1]} alt="Generated Image" style={{maxWidth: '100%', height: 'auto'}} />
+        ) : (
+          <Markdown>{text}</Markdown>
+        )}
       </div>
     </div>
   );
@@ -115,6 +140,25 @@ const Chat: React.FC<ChatProps> = ({
   const sendMessage = async (text: string) => {
     setInputDisabled(true);
     try {
+      let imageUrl = null;
+
+      if (/\b(photo|image|picture)\b/i.test(text)) {
+        const encodedPrompt = encodeURIComponent(characterPrompt);
+        const randomSeed = Math.floor(Math.random() * 10000) + 1; // 生成1-10000之间的随机数
+        imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?seed=${randomSeed}`;
+        console.log("Generated image URL:", imageUrl);
+        
+        // 添加固定的介绍消息
+        appendMessage("assistant", "Sure, I'd be happy to show you an image. How about this one:");
+        
+        // 添加图片消息
+        appendMessage("assistant", `![Generated Image](${imageUrl})`);
+        
+        setInputDisabled(false);
+        return;
+      }
+
+      // 如果不是图片请求，正常处理文本消息
       const response = await fetch(
         `/api/assistants/threads/${threadId}/messages`,
         {
@@ -128,16 +172,16 @@ const Chat: React.FC<ChatProps> = ({
           }),
         }
       );
-  
+
       if (!response.body) {
         throw new Error("ReadableStream not supported");
       }
-  
+
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
-  
+
       let accumulatedResponse = "";
-  
+
       setMessages((prevMessages) => [...prevMessages, { role: "assistant" as const, text: "" }]);
 
       while (true) {
@@ -147,10 +191,9 @@ const Chat: React.FC<ChatProps> = ({
         accumulatedResponse += chunk;
         appendToLastMessage(chunk);
       }
-  
-      // 在这里调用 handleAIResponse
+
       await handleAIResponse(accumulatedResponse);
-  
+
     } catch (error) {
       console.error("Error in sendMessage:", error);
       appendMessage("assistant", "Sorry, an error occurred while processing your message.");
@@ -189,6 +232,7 @@ const Chat: React.FC<ChatProps> = ({
   };
 
   const appendMessage = (role: "user" | "assistant" | "code", text: string) => {
+    console.log("Appending message:", role, text); // 添加这行
     setMessages((prevMessages) => {
       const lastMessage = prevMessages[prevMessages.length - 1];
       if (lastMessage && lastMessage.role === role && lastMessage.text === text) {

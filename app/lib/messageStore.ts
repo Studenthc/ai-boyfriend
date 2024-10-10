@@ -1,5 +1,7 @@
+type MessageRole = 'system' | 'user' | 'assistant';
+
 type Message = {
-    role: 'system' | 'user' | 'assistant';
+    role: MessageRole;
     content: string;
   };
   
@@ -17,7 +19,7 @@ type Message = {
         threads[threadId] = threads[threadId].slice(-MAX_MESSAGES);
       }
     },
-    getMessages: (threadId: string) => {
+    getMessages: (threadId: string): Message[] => {
       return threads[threadId] || [];
     },
     createThread: (threadId: string) => {

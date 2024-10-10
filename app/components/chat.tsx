@@ -13,34 +13,38 @@ const UserMessage = ({ text }: { text: string }) => {
   return <div className={styles.userMessage}>{text}</div>;
 };
 
-// const AssistantMessage: React.FC<{ text: string; avatarUrl?: string }> = ({ text, avatarUrl }) => {
-//   console.log("Rendering assistant message:", text); // 添加这行
-//   return (
-//     <div className={styles.assistantMessageContainer}>
-//       {avatarUrl && <img src={avatarUrl} alt="Assistant" className={styles.avatar} />}
-//       <div className={styles.assistantMessage}>
-//         <Markdown components={{
-//           img: ({node, ...props}) => {
-//             console.log("Rendering image:", props.src); // 添加这行
-//             return <img {...props} style={{maxWidth: '100%', height: 'auto'}} />;
-//           }
-//         }}>
-//           {text}
-//         </Markdown>
-//       </div>
-//     </div>
-//   );
-// };
-
 const AssistantMessage: React.FC<{ text: string; avatarUrl?: string }> = ({ text, avatarUrl }) => {
   const isImageMessage = text.startsWith('![Generated Image]');
+  const [imageStatus, setImageStatus] = useState<'loading' | 'loaded' | 'error'>('loading');
   
+  const handleImageLoad = () => setImageStatus('loaded');
+  const handleImageError = () => setImageStatus('error');
+
   return (
     <div className={styles.assistantMessageContainer}>
       {avatarUrl && <img src={avatarUrl} alt="Assistant" className={styles.avatar} />}
       <div className={styles.assistantMessage}>
         {isImageMessage ? (
-          <img src={text.match(/\((.*?)\)/)?.[1]} alt="Generated Image" style={{maxWidth: '100%', height: 'auto'}} />
+          <div className={styles.imageContainer}>
+            {imageStatus === 'loading' && (
+              <div className={styles.imagePlaceholder}>
+                <p>Generating image...</p>
+              </div>
+            )}
+            {imageStatus === 'error' && (
+              <div className={styles.imagePlaceholder}>
+                <p>Error generating image. Please try again.</p>
+              </div>
+            )}
+            <img 
+              src={text.match(/\((.*?)\)/)?.[1]} 
+              alt="Generated Image" 
+              className={styles.generatedImage}
+              style={{display: imageStatus === 'loaded' ? 'block' : 'none'}}
+              onLoad={handleImageLoad}
+              onError={handleImageError}
+            />
+          </div>
         ) : (
           <Markdown>{text}</Markdown>
         )}
@@ -93,6 +97,7 @@ const Chat: React.FC<ChatProps> = ({
   const [inputDisabled, setInputDisabled] = useState(false);
   const [threadId, setThreadId] = useState("");
   const [isInitialized, setIsInitialized] = useState(false);
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
 
   // Load messages from local storage on component mount
   useEffect(() => {
@@ -137,41 +142,42 @@ const Chat: React.FC<ChatProps> = ({
     createThread();
   }, [isInitialized]);
 
+  const generateImage = async () => {
+    setIsGeneratingImage(true);
+    try {
+      const encodedPrompt = encodeURIComponent(characterPrompt);
+      const randomSeed = Math.floor(Math.random() * 10000) + 1;
+      const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?seed=${randomSeed}`;
+      
+      appendMessage("assistant", "Sure, I'd be happy to show you an image. How about this one:");
+      appendMessage("assistant", `![Generated Image](${imageUrl})`);
+    } catch (error) {
+      console.error("Error generating image:", error);
+      appendMessage("assistant", "Sorry, an error occurred while generating the image.");
+    } finally {
+      setIsGeneratingImage(false);
+    }
+  };
+
   const sendMessage = async (text: string) => {
     setInputDisabled(true);
     try {
-      let imageUrl = null;
-
       if (/\b(photo|image|picture)\b/i.test(text)) {
-        const encodedPrompt = encodeURIComponent(characterPrompt);
-        const randomSeed = Math.floor(Math.random() * 10000) + 1; // 生成1-10000之间的随机数
-        imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?seed=${randomSeed}`;
-        console.log("Generated image URL:", imageUrl);
-        
-        // 添加固定的介绍消息
-        appendMessage("assistant", "Sure, I'd be happy to show you an image. How about this one:");
-        
-        // 添加图片消息
-        appendMessage("assistant", `![Generated Image](${imageUrl})`);
-        
-        setInputDisabled(false);
+        generateImage();
         return;
       }
 
-      // 如果不是图片请求，正常处理文本消息
-      const response = await fetch(
-        `/api/assistants/threads/${threadId}/messages`,
-        {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            content: text,
-            characterPrompt: characterPrompt,
-          }),
-        }
-      );
+      // 处理非图片消息的逻辑
+      const response = await fetch(`/api/assistants/threads/${threadId}/messages`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          content: text,
+          characterPrompt: characterPrompt,
+        }),
+      });
 
       if (!response.body) {
         throw new Error("ReadableStream not supported");
@@ -203,18 +209,13 @@ const Chat: React.FC<ChatProps> = ({
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    console.log("handleSubmit");
-
     e.preventDefault();
     if (!userInput.trim()) return;
 
-    const userMessage: MessageProps = { role: "user", text: userInput };
-    setMessages((prevMessages) => [...prevMessages, userMessage]);
-
-    sendMessage(userInput);
+    const message = userInput;
     setUserInput("");
-    setInputDisabled(true);
-    scrollToBottom();
+    appendMessage("user", message);
+    sendMessage(message);
   };
 
   const appendToLastMessage = (text: string) => {
@@ -283,6 +284,10 @@ const Chat: React.FC<ChatProps> = ({
     }
   };
 
+  useEffect(() => {
+    console.log("Input disabled:", inputDisabled);
+  }, [inputDisabled]);
+
   return (
     <div className={styles.chatWrapper}>
       <div className={styles.messages}>
@@ -303,8 +308,13 @@ const Chat: React.FC<ChatProps> = ({
           onChange={(e) => setUserInput(e.target.value)}
           placeholder="Type your message..."
           className={styles.input}
+          disabled={inputDisabled && !isGeneratingImage}
         />
-        <button type="submit" className={styles.button} disabled={inputDisabled}>
+        <button 
+          type="submit" 
+          className={styles.button} 
+          disabled={(inputDisabled && !isGeneratingImage) || !userInput.trim()}
+        >
           Send
         </button>
       </form>
